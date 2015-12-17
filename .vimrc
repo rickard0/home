@@ -1,0 +1,68 @@
+" Much of this comes from http://dougblack.io/words/a-good-vimrc.html
+execute pathogen#infect()
+
+" Remap the leader to a comma
+let mapleader=","
+nnoremap <leader>u :GundoToggle<CR>
+
+" Map =j to format json
+nmap =j :%!python -m json.tool<CR>
+
+set mouse=r
+set t_Co=256
+colorscheme sourcerer
+let g:rehash256 = 1
+let g:instant_markdown_autostart = 0
+
+filetype on
+filetype indent on
+filetype plugin on
+set number
+set nocompatible
+
+augroup configgroup
+	autocmd!
+	autocmd VimEnter & highlight clearn SignColumn
+	autocmd FileType java setlocal noexpandtab
+	autocmd FileType java setlocal list
+	autocmd FileType java setlocal listhcars=tab:+\ , eol:-
+	autocmd FileType java setlocal formatprg=par\ -w80\ -T4
+	autocmd FileType ruby setlocal tabstop=2
+	autocmd FileType ruby setlocal shiftwidth=2
+	autocmd FileType ruby setlocal softtabstop=2
+	autocmd FileType ruby setlocal commentstring=#\ %s
+	autocmd BufEnter *.sh setlocal tabstop=2
+	autocmd BufEnter *.sh setlocal shiftwidth=2
+	autocmd BufEnter *.sh setlocal softtabstop=2
+augroup END
+
+" Put all the pesky backup files in one place, hopefully ~/.vim-tmp
+set backup
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,tmp
+set backupskip=/tmp/*,/private/tmp/*
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set writebackup
+
+
+set laststatus=2
+set timeoutlen=50
+
+" allows cursor change in tmux mode -- in theory, but not in practice. Revisit
+" this.
+if exists('$TMUX')
+	let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+	let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+	let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+	let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+end
+
+" CtrlP Configuration
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_cache_dir =  $HOME . '/.cache/ctrlp'
+if executable('ag')
+	let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
