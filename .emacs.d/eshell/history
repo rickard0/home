@@ -1,0 +1,12 @@
+ls
+cd ..
+clear
+ls
+cd brickard/
+ls
+clear
+ls
+ls
+irb
+exit
+(- 831.2 884 1180 65.33 38.42 57.8)
